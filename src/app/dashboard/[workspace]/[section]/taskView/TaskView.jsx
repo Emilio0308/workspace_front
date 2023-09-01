@@ -16,11 +16,11 @@ const TaskView = () => {
   const user = useSelector((store) => store.user);
   const { userId, currentWorkspace } = user.value;
 
-  const url = `tasks/${userId}/workspace/${currentWorkspace.id || workspace}/`;
-  const { data:tasks, error, fetching } = useFetch({ url });
-  if (error) {
-    return <div>ERROR</div>;
-  }
+  // const url = `tasks/${userId}/workspace/${currentWorkspace.id || workspace}/`;
+  // const { data:tasks, error, fetching } = useFetch({ url });
+  // if (error) {
+  //   return <div>ERROR</div>;
+  // }
   const handleClose = () => setOpen(!open);
 
   useEffect(() => {
@@ -39,43 +39,56 @@ const TaskView = () => {
     p: 4,
   };
 
-  // const [Connected, setConnected] = useState(false);
-  // const [tasks, setTasks] = useState([])
-  // const [socket] = useState(
-  //   new WebSocket(`ws://localhost:8000/ws/socket-server/${userId}`)
-  // );
+  const [Connected, setConnected] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [socket] = useState(
+    new WebSocket(`ws://localhost:8000/ws/socket-server/${userId}/${workspace}`)
+  );
+  useEffect(() => {
+    socket.onopen = () => {
+      console.log("Connected to WebSocket server");
+      setConnected(true);
+    };
 
-  // useEffect(() => {
-  //   socket.onopen = () => {
-  //     console.log("Connected to WebSocket server");
-  //     setConnected(true);
-  //   };
+    socket.onclose = () => {
+      console.log("Disconnected from WebSocket server");
+    };
 
-  //   socket.onclose = () => {
-  //     console.log("Disconnected from WebSocket server");
-  //   };
+    socket.onmessage = (event) => {
+      console.log(event)
+      const data = JSON.parse(event.data);
+      console.log(data.event_type)
+      if (data.event_type == "tasks" || data.event_type == 'updatedTasks') {
+        setTasks(data.tasks);
+      }
+    };
+  }, []);
 
-  //   socket.onmessage = (event) => {
-  //     const data = JSON.parse(event.data);
-  //     if (data.event_type == 'tasks') {
-  //       setTasks(data.tasks)
-  //     }
-  //   };
-  // }, []);
+  useEffect(() => {
+    if (Connected && workspace) {
+      console.log('pididendo tasks')
+      const workspace_id = workspace;
+      const event_type = "getTasks";
 
-  // useEffect(() => {
-  //   if (Connected) {
-  //     const workspace_id = currentWorkspace.id;
-  //     const event_type = "getTasks";
+      socket.send(
+        JSON.stringify({
+          event_type,
+          workspaceId: workspace_id,
+        })
+      );
+    }
+  }, [Connected]);
 
-  //     socket.send(
-  //       JSON.stringify({
-  //         event_type,
-  //         workspaceId: workspace_id,
-  //       })
-  //     );
-  //   }
-  // }, [Connected]);
+  const refetchSocket = () => {
+    const event_type = 'updated_tasks'
+    const workspace_id = currentWorkspace.id;
+    socket.send(
+      JSON.stringify({
+        event_type,
+        workspaceId: workspace_id,
+      })
+    );
+  }
 
   return (
     <section className="grid gap-10">
@@ -87,7 +100,8 @@ const TaskView = () => {
             key={task.id}
             task={task}
             openModal={handleClose}
-            refetch={() => fetching(url)}
+            // refetch={() => fetching(url)}
+            refetch={refetchSocket}
           />
         ))}
       </section>
@@ -107,7 +121,8 @@ const TaskView = () => {
             <Box sx={style}>
               <AddTask
                 handleClose={handleClose}
-                refetch={() => fetching(url)}
+                // refetch={() => fetching(url)}
+                refetch={refetchSocket}
               />
             </Box>
           </Modal>
