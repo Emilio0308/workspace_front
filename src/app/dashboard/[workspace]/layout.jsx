@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
   }, [findCurrentWorkSpace]);
 
   return (
-    <main className="grid grid-rows-[auto,_1fr] p-3">
+    <main className="grid grid-rows-[auto,_1fr] px-3 pt-16">
       <h2 className="capitalize">
         {value.currentWorkspace.name}
       </h2>

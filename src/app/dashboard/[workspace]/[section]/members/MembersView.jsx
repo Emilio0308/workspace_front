@@ -11,8 +11,7 @@ import { useState } from "react";
 const MembersView = () => {
   const { value } = useSelector((store) => store.user);
   const { currentWorkspace } = value;
-  const [pageSize, setPageSize] = useState(2);
-  console.log(currentWorkspace);
+  const [pageSize, setPageSize] = useState(5);
 
   const columns = [
     {
@@ -66,7 +65,7 @@ const MembersView = () => {
                 paginationModel: { page: 0, pageSize: pageSize },
               },
             }}
-            pageSizeOptions={[2, 3]}
+            pageSizeOptions={[5, 10]}
             getRowSpacing={params => ({
               top: params.isFirstVisible ? 0: 5,
               bottom: params.isLastVisible? 0:5

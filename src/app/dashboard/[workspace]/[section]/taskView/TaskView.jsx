@@ -2,25 +2,19 @@ import ButtonCustom from "@/app/components/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, Modal } from "@mui/material";
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { selectTaskToEdit } from "../../../../../redux/slices/user-slice";
-import useFetch from "../../../../../utils/useFetch";
 import AddTask from "./AddTask";
 import TaskCard from "./TaskCard";
 
 const TaskView = () => {
-  const [open, setOpen] = useState(false);
-  const { workspace } = useParams();
   const dispacth = useDispatch();
+  const { workspace } = useParams();
+  const [open, setOpen] = useState(false);
   const user = useSelector((store) => store.user);
   const { userId, currentWorkspace } = user.value;
 
-  // const url = `tasks/${userId}/workspace/${currentWorkspace.id || workspace}/`;
-  // const { data:tasks, error, fetching } = useFetch({ url });
-  // if (error) {
-  //   return <div>ERROR</div>;
-  // }
   const handleClose = () => setOpen(!open);
 
   useEffect(() => {
@@ -55,9 +49,7 @@ const TaskView = () => {
     };
 
     socket.onmessage = (event) => {
-      console.log(event)
       const data = JSON.parse(event.data);
-      console.log(data.event_type)
       if (data.event_type == "tasks" || data.event_type == 'updatedTasks') {
         setTasks(data.tasks);
       }
@@ -66,7 +58,6 @@ const TaskView = () => {
 
   useEffect(() => {
     if (Connected && workspace) {
-      console.log('pididendo tasks')
       const workspace_id = workspace;
       const event_type = "getTasks";
 

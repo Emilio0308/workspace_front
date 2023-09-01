@@ -20,3 +20,34 @@ body{
 .awn-popup-confirm{
     color: black;
  }
+
+ /* Personalización de la barra de desplazamiento */
+/* WebKit (Chrome, Safari, Opera) */
+::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra de desplazamiento vertical */
+    height: 10px;
+  }
+  /* propiedades la barra de scroll */
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  /* propiedades del fondo de la barra de scroll */
+  ::-webkit-scrollbar-track {
+    /* background-color: #f2f2f2; */
+    background-color: #1a1a1a;
+  }
+  
+  /* ::-webkit-scrollbar-track:hover {
+    background-color: #e0e0e0;
+    background-color: #424242;
+  } */
+  
+  ::-webkit-scrollbar-corner {
+    background: transparent; /* Esquina entre barras de desplazamiento */
+  }
+  

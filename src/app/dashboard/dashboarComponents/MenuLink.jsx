@@ -1,3 +1,8 @@
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FolderIcon from "@mui/icons-material/Folder";
+import GroupIcon from "@mui/icons-material/Group";
+import TaskIcon from "@mui/icons-material/Task";
 import {
   Accordion,
   AccordionDetails,
@@ -9,15 +14,11 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
-import FolderIcon from "@mui/icons-material/Folder";
-import TaskIcon from "@mui/icons-material/Task";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import GroupIcon from "@mui/icons-material/Group";
-import EqualizerIcon from "@mui/icons-material/Equalizer";
 import { useTheme } from "@mui/material/styles";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addCurrentWorkspace } from "../../../redux/slices/user-slice";
+import { formatDate } from "../../../utils/formatDate";
 
 const ItemOfList = ({ icon, title, secondary, href, workspace }) => {
   const theme = useTheme();
@@ -62,21 +63,21 @@ const MenuLink = ({ workspace }) => {
           <ItemOfList
             icon={<TaskIcon />}
             title="Tasks"
-            secondary="Jan 9, 2014"
+            secondary={formatDate(Date.now())}
             workspace={workspace}
             href={`/dashboard/${workspace.id}/tasks`}
           />
           <ItemOfList
             icon={<EqualizerIcon />}
             title="Tables"
-            secondary="Jan 9, 2014"
+            secondary={formatDate(Date.now())}
             workspace={workspace}
             href={`/dashboard/${workspace.id}/tables/`}
           />
           <ItemOfList
             icon={<GroupIcon />}
             title="Members"
-            secondary="Jan 9, 2014"
+            secondary={formatDate(Date.now())}
             workspace={workspace}
             href={`/dashboard/${workspace.id}/members/`}
           />

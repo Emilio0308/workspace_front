@@ -5,9 +5,9 @@ export const formatDate = (date) => {
     year: "numeric",
     month: "long",
     day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
+    // hour: "numeric",
+    // minute: "numeric",
+    // second: "numeric",
     // timeZoneName: 'short'
   };
 
@@ -18,13 +18,11 @@ export const formatDate = (date) => {
 export const DateFormatYMD = (fechaStr) => {
 
   const fecha = new Date(fechaStr);
-  console.log(fechaStr)
 
   const año = fecha.getUTCFullYear().toString().slice(2);
   const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, "0");
   const dia = fecha.getUTCDate().toString().padStart(2, "0");
 
   const fechaFormateada = `${año}/${mes}/${dia}`;
-  console.log(fechaFormateada)
   return fechaFormateada
 };
