@@ -17,7 +17,7 @@ body{
     /* background-color: #02c0a0; */
 }
 
-.awn-popup-confirm{
+.awn-popup-confirm, .awn-popup-body{
     color: black;
  }
 

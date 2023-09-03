@@ -27,6 +27,7 @@ export const user = createSlice({
         userName: username,
         userId: user_id,
         token: access,
+        isAuth: true,
       };
       localStorage.setItem("token", access);
       localStorage.setItem("userId", user_id);

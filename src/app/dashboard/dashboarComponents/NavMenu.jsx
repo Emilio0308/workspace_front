@@ -1,30 +1,57 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getAuthorization, workspaceApi } from "../../../utils/workspaceApi";
-import MenuLink from "./MenuLink";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import { Avatar, Box, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Avatar, Box, Stack, Typography, IconButton } from "@mui/material";
+import AWN from "awesome-notifications";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { allWorkspaces } from "../../../redux/slices/user-slice";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import { getAuthorization, workspaceApi } from "../../../utils/workspaceApi";
+import MenuLink from "./MenuLink";
+import "awesome-notifications/dist/style.css";
+import { useRouter } from "next/navigation";
 
 const NavMenu = () => {
   const [workspaces, setWorkspaces] = useState([]);
   const [showMenu, setShowMenu] = useState(true);
-  const userId = localStorage.getItem("userId");
   const userName = localStorage.getItem("userName");
+  const userId = localStorage.getItem("userId");
   const dispatch = useDispatch();
+  const router = useRouter();
   const theme = useTheme();
+  let notifier = new AWN();
 
   useEffect(() => {
-    workspaceApi
-      .get(`workspace/${userId}/`, { headers: getAuthorization() })
-      .then((res) => {
+    const options = {
+      durations: {
+        alert: 2000,
+      },
+    };
+    // workspaceApi
+    //   .get(`workspace/${userId}/`, { headers: getAuthorization() })
+    //   .then((res) => {
+    //     setWorkspaces(res.data);
+    //     dispatch(allWorkspaces(res.data));
+    //   })
+    //   .catch((err) => {
+    //     notifier.alert("session expired, please log in again");
+    //     setTimeout(() => router.push("/login"), 2000);
+    //     console.log(err);
+    //   });
+    notifier.asyncBlock(
+      workspaceApi.get(`workspace/${userId}/`, { headers: getAuthorization() }),
+      (res) => {
+        // notifier.success("sesion iniciada")
+        null
         setWorkspaces(res.data);
-        dispatch(allWorkspaces(res.data));
-      })
-      .catch((err) => console.log(err));
+        dispatch(allWorkspaces(res.data))
+      },
+      (err) => {
+        notifier.alert("session expired, please log in again", options);
+        setTimeout(() => router.push("/login"), 500);
+      }
+    );
   }, []);
 
   return (
