@@ -6,7 +6,7 @@ const InputLogin = ({ name, type, handleChangeInput, value, style }) => {
         onChange={handleChangeInput}
         id={name}
         name={name}
-        value={value}
+        value={value || ""}
         type={type}
         required
         autoComplete='off'

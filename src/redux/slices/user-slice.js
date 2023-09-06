@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: {
-    isAuth: false,
+    isAuth: localStorage.getItem("token") ? true : false,
     userName: localStorage.getItem("userName") || "",
     userId: localStorage.getItem("userId") || "",
     token: localStorage.getItem("token") || "",
@@ -24,10 +24,10 @@ export const user = createSlice({
       const { username, user_id, access } = action.payload;
       const newStateValue = {
         ...state.value,
+        isAuth: true,
         userName: username,
         userId: user_id,
         token: access,
-        isAuth: true,
       };
       localStorage.setItem("token", access);
       localStorage.setItem("userId", user_id);

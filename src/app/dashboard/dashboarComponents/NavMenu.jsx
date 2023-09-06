@@ -20,7 +20,7 @@ const NavMenu = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const theme = useTheme();
-  let notifier = new AWN();
+  const notifier = new AWN();
 
   useEffect(() => {
     const options = {
@@ -28,24 +28,12 @@ const NavMenu = () => {
         alert: 2000,
       },
     };
-    // workspaceApi
-    //   .get(`workspace/${userId}/`, { headers: getAuthorization() })
-    //   .then((res) => {
-    //     setWorkspaces(res.data);
-    //     dispatch(allWorkspaces(res.data));
-    //   })
-    //   .catch((err) => {
-    //     notifier.alert("session expired, please log in again");
-    //     setTimeout(() => router.push("/login"), 2000);
-    //     console.log(err);
-    //   });
     notifier.asyncBlock(
       workspaceApi.get(`workspace/${userId}/`, { headers: getAuthorization() }),
       (res) => {
-        // notifier.success("sesion iniciada")
-        null
+        null;
         setWorkspaces(res.data);
-        dispatch(allWorkspaces(res.data))
+        dispatch(allWorkspaces(res.data));
       },
       (err) => {
         notifier.alert("session expired, please log in again", options);
@@ -60,7 +48,6 @@ const NavMenu = () => {
         showMenu ? "translate-x-0" : "translate-x-[-100%]"
       }  sm:sticky z-40 sm:translate-x-0 w-full max-w-xs sm:min-w-[350px] min-h-screen`}
       sx={{ backgroundColor: theme.palette.primary[700], p: "0px 5px" }}
-      // minWidth="350px"
     >
       <IconButton
         aria-label="show-menu"

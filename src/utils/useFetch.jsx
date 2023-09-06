@@ -16,6 +16,7 @@ const useFetch = ({ url }) => {
       .get(url, { headers: getAuthorization() })
       .then((res) => setData(res.data))
       .catch((err) => {
+        console.log(error)
         setError(err);
       });
   };
