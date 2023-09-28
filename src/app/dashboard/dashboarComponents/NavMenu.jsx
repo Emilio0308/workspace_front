@@ -15,8 +15,8 @@ import { useRouter } from "next/navigation";
 const NavMenu = () => {
   const [workspaces, setWorkspaces] = useState([]);
   const [showMenu, setShowMenu] = useState(true);
-  const userName = localStorage.getItem("userName");
-  const userId = localStorage.getItem("userId");
+  const userName = sessionStorage.getItem("userName");
+  const userId = sessionStorage.getItem("userId");
   const dispatch = useDispatch();
   const router = useRouter();
   const theme = useTheme();

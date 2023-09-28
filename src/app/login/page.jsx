@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { workspaceApi } from "../../utils/workspaceApi";
 import InputLogin from "../components/InputLogin";
-import ProfileUser from "./components/ProfileUser";
 
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slices/user-slice";
@@ -40,6 +39,7 @@ const Login = () => {
     <Grid
       sx={{
         height: "100%",
+        width: '100%',
         display: "flex",
         justifyItems: "center",
         alignItems: "center",

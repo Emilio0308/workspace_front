@@ -6,7 +6,7 @@ export const workspaceApi = axios.create({
 
 
 export const getAuthorization = () => {
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const Headers= {
         Authorization: `Bearer ${token}`
     }

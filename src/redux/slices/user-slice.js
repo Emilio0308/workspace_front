@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: {
-    isAuth: localStorage.getItem("token") ? true : false,
-    userName: localStorage.getItem("userName") || "",
-    userId: localStorage.getItem("userId") || "",
-    token: localStorage.getItem("token") || "",
+    isAuth: sessionStorage.getItem("token") ? true : false,
+    userName: sessionStorage.getItem("userName") || "",
+    userId: sessionStorage.getItem("userId") || "",
+    token: sessionStorage.getItem("token") || "",
     allWorkspaces: [],
     currentWorkspace: {},
     currentTaskToEdit: null,
@@ -17,7 +17,7 @@ export const user = createSlice({
   initialState,
   reducers: {
     logout: () => {
-      localStorage.clear();
+      sessionStorage.clear();
       return initialState;
     },
     login: (state, action) => {
@@ -29,9 +29,9 @@ export const user = createSlice({
         userId: user_id,
         token: access,
       };
-      localStorage.setItem("token", access);
-      localStorage.setItem("userId", user_id);
-      localStorage.setItem("userName", username);
+      sessionStorage.setItem("token", access);
+      sessionStorage.setItem("userId", user_id);
+      sessionStorage.setItem("userName", username);
       state.value = newStateValue;
     },
     addCurrentWorkspace: (state, action) => {

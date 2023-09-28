@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 const Dashboard = () => {
   const router = useRouter()
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   if (!token) {
     router.push('/')
   }

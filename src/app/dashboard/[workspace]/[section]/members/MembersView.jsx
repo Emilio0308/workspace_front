@@ -1,12 +1,12 @@
-import { Box, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import useFetch from "@/utils/useFetch";
-import { useSelector } from "react-redux";
-import { DateFormatYMD, formatDate } from "../../../../../utils/formatDate";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { Box } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { formatDate } from "../../../../../utils/formatDate";
+import RemoveMember from './membersComponents/RemoveMember'
 
 const MembersView = () => {
   const { value } = useSelector((store) => store.user);
@@ -44,8 +44,8 @@ const MembersView = () => {
       field: "id",
       headerName: "Remove",
       minWidth: 60,
-      renderCell: ({ value }) => {
-        return <PersonRemoveIcon />;
+      renderCell: (params) => {
+        return <RemoveMember info={params.row} />;
       },
     },
   ];
@@ -58,17 +58,15 @@ const MembersView = () => {
             columns={columns}
             rows={currentWorkspace.menbers}
             getRowId={(row) => row.id}
-            // pageSizeOptions={ [5,10,15]}
-            // pageSize={pageSize}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: pageSize },
               },
             }}
             pageSizeOptions={[5, 10]}
-            getRowSpacing={params => ({
-              top: params.isFirstVisible ? 0: 5,
-              bottom: params.isLastVisible? 0:5
+            getRowSpacing={(params) => ({
+              top: params.isFirstVisible ? 0 : 5,
+              bottom: params.isLastVisible ? 0 : 5,
             })}
           />
         </Box>
