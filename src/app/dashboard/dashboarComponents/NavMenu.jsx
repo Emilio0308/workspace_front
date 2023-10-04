@@ -4,13 +4,13 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { Avatar, Box, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import AWN from "awesome-notifications";
+import "awesome-notifications/dist/style.css";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { allWorkspaces } from "../../../redux/slices/user-slice";
 import { getAuthorization, workspaceApi } from "../../../utils/workspaceApi";
 import MenuLink from "./MenuLink";
-import "awesome-notifications/dist/style.css";
-import { useRouter } from "next/navigation";
 
 const NavMenu = () => {
   const [workspaces, setWorkspaces] = useState([]);

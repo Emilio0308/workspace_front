@@ -13,7 +13,6 @@ const page = () => {
   };
   return (
     <div className="overflow-x-auto">
-      <h4>{section}</h4>
       {views[section]}
     </div>
   );

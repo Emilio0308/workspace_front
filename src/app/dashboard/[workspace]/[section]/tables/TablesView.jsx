@@ -1,12 +1,17 @@
+import { Box } from "@mui/material";
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ButtonCustom from "../../../../components/Button";
+import GraphTable from "./tablesComponenets/GraphTable";
 
 const TablesView = () => {
   const { workspace } = useParams();
   const { value } = useSelector((store) => store.user);
   const [connect, setconnect] = useState(false);
   const [tables, setTables] = useState([]);
+
+  console.log(tables);
 
   const [socket] = useState(
     new WebSocket(
@@ -42,14 +47,27 @@ const TablesView = () => {
     }
   }, [connect]);
 
-  console.log(tables);
+  const addNewTable = () => {
+    const newTable = {
+      title: "titulo de tu nueva tabla",
+      description: "descripcion de la tabla",
+      data: [{ concepto: "value" }],
+    }
+    setTables([ ...tables, newTable])        
+  }
 
   return (
     <div>
       <h2>Grahps</h2>
-      {tables.map((table) => (
-        <div>{table.title}</div>
-      ))}
+      <ButtonCustom
+        message={"add table"}
+        event={addNewTable}
+      />
+      <Box sx={{ display: "grid", gap: "2rem" }}>
+        {tables.map((table) => (
+          <GraphTable key={table.id} table={table} />
+        ))}
+      </Box>
     </div>
   );
 };

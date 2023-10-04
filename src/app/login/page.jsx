@@ -1,17 +1,18 @@
 "use client";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
+import AWN from "awesome-notifications";
+import "awesome-notifications/dist/style.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/slices/user-slice";
 import { workspaceApi } from "../../utils/workspaceApi";
 import InputLogin from "../components/InputLogin";
 
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/slices/user-slice";
-
 const Login = () => {
   const router = useRouter();
-  const user = useSelector((store) => store.user.value);
   const dispatch = useDispatch();
+  const notifier = new AWN();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -21,13 +22,17 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    workspaceApi
-      .post("login/", loginData)
-      .then((res) => {
+    notifier.asyncBlock(
+      workspaceApi.post("login/", loginData),
+      (res) => {
+        null;
         dispatch(login(res.data));
         router.push("/dashboard");
-      })
-      .catch((err) => console.log(err));
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   };
 
   const handleChangeInput = (e) => {
@@ -39,7 +44,7 @@ const Login = () => {
     <Grid
       sx={{
         height: "100%",
-        width: '100%',
+        width: "100%",
         display: "flex",
         justifyItems: "center",
         alignItems: "center",

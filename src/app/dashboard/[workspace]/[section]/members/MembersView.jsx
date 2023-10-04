@@ -1,12 +1,11 @@
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../../../../utils/formatDate";
-import RemoveMember from './membersComponents/RemoveMember'
+import RemoveMember from './membersComponents/RemoveMember';
 
 const MembersView = () => {
   const { value } = useSelector((store) => store.user);
