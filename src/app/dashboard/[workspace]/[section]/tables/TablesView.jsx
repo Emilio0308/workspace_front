@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ButtonCustom from "../../../../components/Button";
 import GraphTable from "./tablesComponenets/GraphTable";
+import LoadingSkeleton from "../../../../components/LoadingSkeleton";
 
 const TablesView = () => {
   const { workspace } = useParams();
   const { value } = useSelector((store) => store.user);
   const [connect, setconnect] = useState(false);
   const [tables, setTables] = useState([]);
-
-  console.log(tables);
 
   const [socket] = useState(
     new WebSocket(
@@ -51,22 +50,21 @@ const TablesView = () => {
     const newTable = {
       title: "titulo de tu nueva tabla",
       description: "descripcion de la tabla",
-      data: [{ concepto: "value" }],
-    }
-    setTables([ ...tables, newTable])        
-  }
+      data: [{ id: 1, concepto: "value" }],
+    };
+    setTables([...tables, newTable]);
+  };
 
   return (
     <div>
       <h2>Grahps</h2>
-      <ButtonCustom
-        message={"add table"}
-        event={addNewTable}
-      />
-      <Box sx={{ display: "grid", gap: "2rem" }}>
-        {tables.map((table) => (
-          <GraphTable key={table.id} table={table} />
-        ))}
+      <ButtonCustom message={"add table"} event={addNewTable} />
+      <Box sx={{ display: "grid", gap: "2rem", margin:'2rem 0' }}>
+        {tables.length ? (
+          tables.map((table) => <GraphTable key={table.id} table={table} />)
+        ) : (
+          <LoadingSkeleton quantity={3} />
+        )}
       </Box>
     </div>
   );

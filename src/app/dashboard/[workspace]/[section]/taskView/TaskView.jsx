@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectTaskToEdit } from "../../../../../redux/slices/user-slice";
 import AddTask from "./AddTask";
 import TaskCard from "./TaskCard";
+import LoadingSkeleton from "../../../../components/LoadingSkeleton";
 
 const TaskView = () => {
   const dispacth = useDispatch();
@@ -50,7 +51,7 @@ const TaskView = () => {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.event_type == "tasks" || data.event_type == 'updatedTasks') {
+      if (data.event_type == "tasks" || data.event_type == "updatedTasks") {
         setTasks(data.tasks);
       }
     };
@@ -71,7 +72,7 @@ const TaskView = () => {
   }, [Connected]);
 
   const refetchSocket = () => {
-    const event_type = 'updated_tasks'
+    const event_type = "updated_tasks";
     const workspace_id = currentWorkspace.id;
     socket.send(
       JSON.stringify({
@@ -79,22 +80,26 @@ const TaskView = () => {
         workspaceId: workspace_id,
       })
     );
-  }
+  };
 
   return (
     <section className="grid gap-10">
       <h5 className="m-5">Your Tasks:</h5>
       <div>FORMMMM</div>
       <section className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))]  gap-5">
-        {tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            openModal={handleClose}
-            // refetch={() => fetching(url)}
-            refetch={refetchSocket}
-          />
-        ))}
+        {tasks.length ? (
+          tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              openModal={handleClose}
+              // refetch={() => fetching(url)}
+              refetch={refetchSocket}
+            />
+          ))
+        ) : (
+          <LoadingSkeleton quantity={3} />
+        )}
       </section>
       <section>
         <div>
