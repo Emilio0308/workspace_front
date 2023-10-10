@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InputLogin from "../../../../../../components/InputLogin";
 
 const TableCell = ({ children, row, setRows }) => {
   const [cellValue, setCellValue] = useState(row[children]);
 
-  const hanldeEditCell = (e) => {
-    setCellValue(e.target.value);
-  };
+  useEffect(() => {
+    setCellValue(row[children]);
+  }, [row]);
 
   const hanldeSaveCellValue = (e) => {
     // const newRow = { ...row, [children]: e.target.value };
@@ -35,6 +35,10 @@ const TableCell = ({ children, row, setRows }) => {
     setRows((prev) => updateRows(prev));
   };
 
+  const hanldeEditCell = (e) => {
+    setCellValue(e.target.value);
+  };
+
   return (
     <InputLogin
       handleChangeInput={hanldeEditCell}
@@ -42,16 +46,7 @@ const TableCell = ({ children, row, setRows }) => {
       type={"text"}
       onBlur={hanldeSaveCellValue}
       variant={"filled"}
-      // style={{backgroundColor:'transparent'}}
     />
-
-    // <input
-    //   onChange={hanldeEditCell}
-    //   onBlur={updateRows}
-    //   className="outline-none text-white bg-black"
-    //   type="text"
-    //   value={cellValue}
-    // />
   );
 };
 export default TableCell;

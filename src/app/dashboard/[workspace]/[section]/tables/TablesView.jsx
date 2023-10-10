@@ -33,6 +33,9 @@ const TablesView = () => {
       if (data.event_type == "tables") {
         setTables(data.tables);
       }
+      if (data.event_type == "tablas_actualizadas") {
+        setTables(data.list_tables);
+      }
     };
   }, []);
 
@@ -46,11 +49,19 @@ const TablesView = () => {
     }
   }, [connect]);
 
+  const reFetchTables = () => {
+    const eventInfo = {
+      event_type: "updating_tables",
+      workspaceId: workspace,
+    };
+    socket.send(JSON.stringify(eventInfo));
+  };
+
   const addNewTable = () => {
     const newTable = {
       title: "titulo de tu nueva tabla",
       description: "descripcion de la tabla",
-      data: [{ id: 1, concepto: "value" }],
+      data: [{ id: 1 }],
     };
     setTables([...tables, newTable]);
   };
@@ -59,9 +70,15 @@ const TablesView = () => {
     <div>
       <h2>Grahps</h2>
       <ButtonCustom message={"add table"} event={addNewTable} />
-      <Box sx={{ display: "grid", gap: "2rem", margin:'2rem 0' }}>
+      <Box sx={{ display: "grid", gap: "2rem", margin: "2rem 0" }}>
         {tables.length ? (
-          tables.map((table) => <GraphTable key={table.id} table={table} />)
+          tables.map((table) => (
+            <GraphTable
+              key={table.id}
+              table={table}
+              reFetchTables={reFetchTables}
+            />
+          ))
         ) : (
           <LoadingSkeleton quantity={3} />
         )}
