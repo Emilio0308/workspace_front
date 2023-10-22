@@ -1,18 +1,29 @@
 "use client";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
-import AWN from "awesome-notifications";
-import "awesome-notifications/dist/style.css";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/user-slice";
 import { workspaceApi } from "../../utils/workspaceApi";
 import InputLogin from "../components/InputLogin";
+// import AWN from "awesome-notifications";
+import "awesome-notifications/dist/style.css";
 
 const Login = () => {
+  const [notifier, setnotifier] = useState();
+  useEffect(() => {
+    const importAWN = async () => {
+      const AWN = await (await import("awesome-notifications")).default;
+      const not = new AWN();
+      setnotifier(not);
+    };
+    importAWN();
+  }, []);
+
+  // const notifier = new AWN();
+
   const router = useRouter();
   const dispatch = useDispatch();
-  const notifier = new AWN();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -30,6 +41,7 @@ const Login = () => {
         router.push("/dashboard");
       },
       (err) => {
+        notifier.alert("session fail, please log in again");
         console.log(err);
       }
     );

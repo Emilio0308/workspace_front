@@ -1,19 +1,27 @@
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import { Box, Paper, Typography } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
-import { formatDate } from "../../../../../utils/formatDate";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ButtonCustom from "@/app/components/Button";
-import { useSelector, useDispatch } from "react-redux";
-import { selectTaskToEdit } from "../../../../../redux/slices/user-slice";
-import { workspaceApi, getAuthorization } from "@/utils/workspaceApi";
+import { getAuthorization, workspaceApi } from "@/utils/workspaceApi";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import { Box, Paper, Typography } from "@mui/material";
 import "awesome-notifications/dist/style.css";
-import AWN from "awesome-notifications";
-let notifier = new AWN();
+import { useDispatch, useSelector } from "react-redux";
+import { selectTaskToEdit } from "../../../../../redux/slices/user-slice";
+import { formatDate } from "../../../../../utils/formatDate";
 
 const TaskCard = ({ task, openModal, refetch }) => {
+  const [notifier, setnotifier] = useState();
+  useEffect(() => {
+    const importAWN = async () => {
+      const AWN = await (await import("awesome-notifications")).default;
+      const not = new AWN();
+      setnotifier(not);
+    };
+    importAWN();
+  }, []);
+
   const { value } = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
@@ -38,7 +46,7 @@ const TaskCard = ({ task, openModal, refetch }) => {
       labels: {
         confirm: "Dangerous action",
       },
-    },  );
+    });
   };
   return (
     <Box sx={{ boxShadow: "5px 8px 5px 5px black", display: "grid" }}>

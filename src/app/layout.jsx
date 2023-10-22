@@ -1,10 +1,6 @@
-"use client";
-import NavBar from "./components/NavBar";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { ThemeConfig } from "../themeConfig/theme.config";
-import { store } from "../redux/store";
-import { Provider } from "react-redux";
+import { Providers } from "../redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,12 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider store={store}>
-          <ThemeConfig>
-            <NavBar />
-            {children}
-          </ThemeConfig>
-        </Provider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

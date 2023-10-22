@@ -1,11 +1,24 @@
+"use client";
 import { createSlice } from "@reduxjs/toolkit";
+
+let isAuth = false;
+let userName = "";
+let userId = "";
+let token = "";
+
+if (typeof window !== "undefined") {
+  isAuth = sessionStorage.getItem("token") ? true : false;
+  userName = sessionStorage.getItem("userName") || "";
+  userId = sessionStorage.getItem("userId") || "";
+  token = sessionStorage.getItem("token") || "";
+}
 
 const initialState = {
   value: {
-    isAuth: sessionStorage.getItem("token") ? true : false,
-    userName: sessionStorage.getItem("userName") || "",
-    userId: sessionStorage.getItem("userId") || "",
-    token: sessionStorage.getItem("token") || "",
+    isAuth,
+    userName,
+    userId,
+    token,
     allWorkspaces: [],
     currentWorkspace: {},
     currentTaskToEdit: null,

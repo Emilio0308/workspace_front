@@ -3,11 +3,10 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Avatar, Box, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import AWN from "awesome-notifications";
 import "awesome-notifications/dist/style.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { allWorkspaces } from "../../../redux/slices/user-slice";
 import { getAuthorization, workspaceApi } from "../../../utils/workspaceApi";
 import MenuLink from "./MenuLink";
@@ -15,32 +14,45 @@ import MenuLink from "./MenuLink";
 const NavMenu = () => {
   const [workspaces, setWorkspaces] = useState([]);
   const [showMenu, setShowMenu] = useState(true);
-  const userName = sessionStorage.getItem("userName");
-  const userId = sessionStorage.getItem("userId");
+  const { userName, userId } = useSelector((store) => store.user.value);
   const dispatch = useDispatch();
   const router = useRouter();
   const theme = useTheme();
-  const notifier = new AWN();
+  const [notifier, setnotifier] = useState();
 
   useEffect(() => {
-    const options = {
-      durations: {
-        alert: 2000,
-      },
+    const importAWN = async () => {
+      const AWN = await (await import("awesome-notifications")).default;
+      const not = new AWN();
+      setnotifier(not);
     };
-    notifier.asyncBlock(
-      workspaceApi.get(`workspace/${userId}/`, { headers: getAuthorization() }),
-      (res) => {
-        null;
-        setWorkspaces(res.data);
-        dispatch(allWorkspaces(res.data));
-      },
-      (err) => {
-        notifier.alert("session expired, please log in again", options);
-        setTimeout(() => router.push("/login"), 500);
-      }
-    );
+
+    importAWN();
   }, []);
+
+  useEffect(() => {
+    if (notifier) {
+      const options = {
+        durations: {
+          alert: 2000,
+        },
+      };
+      notifier.asyncBlock(
+        workspaceApi.get(`workspace/${userId}/`, {
+          headers: getAuthorization(),
+        }),
+        (res) => {
+          null;
+          setWorkspaces(res.data);
+          dispatch(allWorkspaces(res.data));
+        },
+        (err) => {
+          notifier.alert("session expired, please log in again", options);
+          setTimeout(() => router.push("/login"), 500);
+        }
+      );
+    }
+  }, [notifier]);
 
   return (
     <Box
@@ -80,7 +92,7 @@ const NavMenu = () => {
           spacing={2}
         >
           <Avatar
-            alt={userName}
+            alt='user picture'
             src="/user/avatarUser.jpg"
             sx={{ width: 56, height: 56 }}
           />
