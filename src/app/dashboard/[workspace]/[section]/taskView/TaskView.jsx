@@ -1,3 +1,4 @@
+"use client"
 import ButtonCustom from "@/app/components/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, Modal } from "@mui/material";
