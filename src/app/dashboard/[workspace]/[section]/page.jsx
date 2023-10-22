@@ -7,7 +7,16 @@ import TablesView from "./tables/TablesView";
 
 export default function Section() {
   const router = useRouter();
-  const { section } = router.query;
+  const routerQuery = router.query;
+  const [currentSection, setCurrentSection] = useState(null)
+
+  useEffect(() => {
+    if(routerQuery){
+      const { section } =  routerQuery
+      setCurrentSection(section)
+    }
+  }, [routerQuery])
+  
 
   const views = {
     tasks: <TaskView />,
@@ -15,5 +24,5 @@ export default function Section() {
     tables: <TablesView />,
   };
 
-  return <div className="overflow-x-auto">{views[section]}</div>;
+  return <div className="overflow-x-auto">{views[currentSection]}</div>;
 }
