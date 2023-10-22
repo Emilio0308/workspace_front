@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router'; // Importa useRouter desde next/router
+import { useRouter } from "next/navigation"; // Importa useRouter desde next/router
 
 import TaskView from "./taskView/TaskView";
 import MembersView from "./members/MembersView";
 import TablesView from "./tables/TablesView";
 
-const Page = () => {
+export default function Section() {
   const router = useRouter();
   const { section } = router.query;
 
@@ -14,11 +14,5 @@ const Page = () => {
     tables: <TablesView />,
   };
 
-  return (
-    <div className="overflow-x-auto">
-      {views[section]}
-    </div>
-  );
-};
-
-export default Page;
+  return <div className="overflow-x-auto">{views[section]}</div>;
+}
