@@ -10,6 +10,7 @@ import "awesome-notifications/dist/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTaskToEdit } from "../../../../../redux/slices/user-slice";
 import { formatDate } from "../../../../../utils/formatDate";
+import { useState, useEffect } from "react";
 
 const TaskCard = ({ task, openModal, refetch }) => {
   const [notifier, setnotifier] = useState();
