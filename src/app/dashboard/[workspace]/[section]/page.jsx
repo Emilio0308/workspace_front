@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"; // Importa useRouter desde next/rou
 import TaskView from "./taskView/TaskView";
 import MembersView from "./members/MembersView";
 import TablesView from "./tables/TablesView";
+import { useEffect, useState } from "react";
 
 export default function Section() {
   const router = useRouter();
