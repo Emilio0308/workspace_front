@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function Section() {
   // const router = useRouter();
   // const routerQuery = router.query;
-  const [currentSection, setCurrentSection] = useState("tasks");
+  const [currentSection, setCurrentSection] = useState("members");
   const routerQuery = useParams();
 
   useEffect(() => {
@@ -25,5 +25,5 @@ export default function Section() {
     tables: <TablesView />,
   };
 
-  return <div className="overflow-x-auto">{views[currentSection]}</div>;
+  return <div className="overflow-x-auto">{<MembersView />}</div>;
 }
