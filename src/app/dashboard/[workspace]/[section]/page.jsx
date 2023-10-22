@@ -1,5 +1,5 @@
-"use client"
-import { useRouter } from "next/navigation"; // Importa useRouter desde next/router
+"use client";
+import { useParams, useRouter } from "next/navigation"; // Importa useRouter desde next/router
 
 import TaskView from "./taskView/TaskView";
 import MembersView from "./members/MembersView";
@@ -7,17 +7,17 @@ import TablesView from "./tables/TablesView";
 import { useEffect, useState } from "react";
 
 export default function Section() {
-  const router = useRouter();
-  const routerQuery = router.query;
-  const [currentSection, setCurrentSection] = useState(null)
+  // const router = useRouter();
+  // const routerQuery = router.query;
+  const [currentSection, setCurrentSection] = useState("tasks");
+  const routerQuery = useParams();
 
   useEffect(() => {
-    if(routerQuery){
-      const { section } =  routerQuery
-      setCurrentSection(section)
+    if (routerQuery) {
+      const { section } = routerQuery;
+      setCurrentSection(section);
     }
-  }, [routerQuery])
-  
+  }, [routerQuery]);
 
   const views = {
     tasks: <TaskView />,
