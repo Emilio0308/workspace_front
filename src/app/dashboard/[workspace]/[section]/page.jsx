@@ -1,3 +1,4 @@
+"use client"
 import { useRouter } from "next/navigation"; // Importa useRouter desde next/router
 
 import TaskView from "./taskView/TaskView";
