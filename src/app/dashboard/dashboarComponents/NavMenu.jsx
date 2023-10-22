@@ -30,13 +30,14 @@ const NavMenu = () => {
     importAWN();
   }, []);
 
+  const options = {
+    durations: {
+      alert: 2000,
+    },
+  };
+
   useEffect(() => {
     if (notifier) {
-      const options = {
-        durations: {
-          alert: 2000,
-        },
-      };
       notifier.asyncBlock(
         workspaceApi.get(`workspace/${userId}/`, {
           headers: getAuthorization(),
@@ -52,7 +53,7 @@ const NavMenu = () => {
         }
       );
     }
-  }, [notifier]);
+  }, [notifier, userName, userId]);
 
   return (
     <Box
@@ -92,7 +93,7 @@ const NavMenu = () => {
           spacing={2}
         >
           <Avatar
-            alt='user picture'
+            alt="user picture"
             src="/user/avatarUser.jpg"
             sx={{ width: 56, height: 56 }}
           />

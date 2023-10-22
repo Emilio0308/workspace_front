@@ -56,7 +56,7 @@ const TaskView = () => {
         setTasks(data.tasks);
       }
     };
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (Connected && workspace) {

@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import useFetch from "../../../utils/useFetch";
 
-export default function workspace() {
+export default function Workspace() {
   const { workspace } = useParams();
   const user = useSelector((store) => store.user);
   let { userId, currentWorkspace } = user.value;
@@ -14,7 +14,6 @@ export default function workspace() {
   if (error) {
     return <div>ERROR</div>;
   }
-  console.log(data);
 
   return <div>{workspace}</div>;
 }
