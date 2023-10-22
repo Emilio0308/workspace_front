@@ -1,5 +1,5 @@
 "use client";
-import { useParams, useRouter } from "next/navigation"; // Importa useRouter desde next/router
+import { useParams } from "next/navigation"; // Importa useRouter desde next/router
 
 import TaskView from "./taskView/TaskView";
 import MembersView from "./members/MembersView";
@@ -7,8 +7,6 @@ import TablesView from "./tables/TablesView";
 import { useEffect, useState } from "react";
 
 export default function Section() {
-  // const router = useRouter();
-  // const routerQuery = router.query;
   const [currentSection, setCurrentSection] = useState("members");
   const routerQuery = useParams();
 
@@ -25,5 +23,5 @@ export default function Section() {
     tables: <TablesView />,
   };
 
-  return <div className="overflow-x-auto">{<MembersView />}</div>;
+  return <div className="overflow-x-auto">{views[currentSection]}</div>;
 }
